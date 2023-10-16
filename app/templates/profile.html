@@ -1,0 +1,240 @@
+{% extends "base.html" %}
+{% block content %}
+    <script src="../static/scripts/DropDown.js"></script>
+    <div class="userinfo">
+        <div class="info-head">
+            <h1>Данные пользователя</h1>
+            <div class="icon-group">
+                <a href="{{ url_for('change_log_data') }}" class="logout" title="Изменить логин и пароль"> <i
+                        class="fa-solid fa-key"></i></a>
+                <a href="{{ url_for('edit_pd') }}" class="logout" title="Редактировать личные данные"><i
+                        class="fa-solid fa-user-pen"></i></a>
+                <a href="{{ url_for('logout') }}" class="logout" title="Выйти"><i
+                        class="fa-solid fa-right-from-bracket"></i></a>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="maininfo">
+                    <div class="info-item text-center"><p>Фамилия:</p> {{ user.surname }}</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="maininfo">
+                    <div class="info-item text-center"><p>Имя:</p> {{ user.name }}</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="maininfo">
+                    <div class="info-item text-center"><p>Отчество:</p> {{ user.patronymic }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="maininfo">
+                    <div class="info-item text-center"><p>Школа:</p> {{ user.school }}</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="maininfo">
+                    <div class="info-item text-center"><p>Класс:</p> {{ user.s_class }}</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="maininfo">
+                    <div class="info-item text-center"><p>Преподаватель:</p> {{ user.s_teacher }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {% if testdata9c.count() !=0 %}
+
+        <div class="info-head">
+            <h1>Данные о тесте 9 класс : </h1>
+            <a href="{{ url_for('print_certificate',course_id=1) }}" class="logout" title="Распечатать сертификат"> <i
+                    class="fa-solid fa-certificate"></i></a>
+        </div>
+        <div class="test-info">
+            {% for t9c in testdata9c %}
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="test-item text-center"><p>Название теста</p>
+                            <p>{{ t9c.Name }}</p></div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="test-item text-center">
+                            <p>Решено заданий</p>
+                            <p>{{ t9c.grade }} из 7</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="test-item text-center">
+                            <p>Дата и время прохождения теста</p>
+                            <p>{{ t9c.date_time.isoformat(" ","seconds") }}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="test-item text-center">
+                            <a id="toggleButton9" class="hb_btn">Показать</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            <div class="hiddenBlock9" id="hiddenBlock9">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tr>
+                            <th scope="col">Вопрос</th>
+                            {% for ra in user_ra9c %}
+                                <th>Вопрос {{ loop.index }}</th>
+                            {% endfor %}
+                        </tr>
+                        <tr>
+                            <td>Ответ</td>
+                            {% for ra in user_ra9c %}
+                                {% if ra.is_answer_correct == True %}
+                                    <td>Верно</td>
+                                {% elif ra.is_answer_correct == False %}
+                                    <td class="incorrect">Неверно</td>
+                                {% endif %}
+                            {% endfor %}
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+
+
+    {% if testdata10c.count() !=0 %}
+
+        <div class="info-head">
+            <h1>Данные о тесте 10 класс : </h1>
+          <a href="{{ url_for('print_certificate',course_id=2) }}" class="logout" title="Распечатать сертификат"> <i
+                    class="fa-solid fa-certificate"></i></a>
+        </div>
+
+
+        <div class="test-info ">
+            {% for t10c in testdata10c %}
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="test-item text-center"><p>Название теста</p>
+                            <p>{{ t10c.Name }} </p></div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="test-item text-center">
+                            <p>Решено заданий</p>
+                            <p>{{ t10c.grade }} из 7</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="test-item text-center">
+                            <p>Дата и время прохождения теста</p>
+                            <p>{{ t10c.date_time.isoformat(" ","seconds") }}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="test-item text-center">
+                            <a id="toggleButton10" class="hb_btn">Показать</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            <div class="hiddenBlock10" id="hiddenBlock10">
+
+                <table class="table">
+                    <tr>
+                        <th scope="col">Вопрос</th>
+                        {% for ra in user_ra10c %}
+                            <th>{{ ra.task.Question }}</th>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>Ответ</td>
+                        {% for ra in user_ra10c %}
+                            {% if ra.is_answer_correct == True %}
+                                <td>Верно</td>
+                            {% elif ra.is_answer_correct == False %}
+                                <td class="incorrect">Неверно</td>
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
+                </table>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if testdata11c.count() !=0 %}
+
+        <div class="info-head">
+            <h1>Данные о тесте 11 класс : </h1>
+          <a href="{{ url_for('print_certificate',course_id=3) }}" class="logout" title="Распечатать сертификат"> <i
+                    class="fa-solid fa-certificate"></i></a>
+        </div>
+
+
+        <div class="test-info">
+            {% for t11c in testdata11c %}
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <div class="test-item text-center"><p>Название теста</p>
+                            <p>{{ t11c.Name }} </p></div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="test-item text-center">
+                            <p>Решено заданий</p>
+                            <p>{{ t11c.grade }} из 7</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="test-item text-center">
+                            <p>Дата и время прохождения теста</p>
+                            <p>{{ t11c.date_time.isoformat(" ","seconds") }}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="test-item text-center">
+                            <a id="toggleButton11" class="hb_btn">Показать</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            <div class="hiddenBlock11" id="hiddenBlock11">
+                <table class="table">
+                    <tr>
+                        <th scope="col">Вопрос</th>
+                        {% for ra in user_ra11c %}
+                            <th>{{ ra.task.Question }}</th>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>Ответ</td>
+                        {% for ra in user_ra11c %}
+                            {% if ra.is_answer_correct == True %}
+                                <td>Верно</td>
+                            {% elif ra.is_answer_correct == False %}
+                                <td class="incorrect">Неверно</td>
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
+                </table>
+            </div>
+        </div>
+    {% endif %}
+
+    </div>
+    <script src="../static/scripts/DropDown.js"></script>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+    {{ super() }}
+    <div class="test-wrapper">
+        <div class="content">
+            <form action="" method="post" name="edit_test" enctype="multipart/form-data" class="py-3">
+                {{ FlaskForm.hidden_tag() }}
+                {% for i in range(1, 8) %}
+                <div class="form-group py-2">
+                    <label for="quest{{ i }}" class="text-primary">Вопрос {{ i }}:</label>
+                    {{ FlaskForm['quest' ~ i](class="form-control", style="height: 120px;") }}
+                </div>
+                <div class="form-group py-2">
+                    <label for="pic{{ i }}" class="text-secondary">Выберите файл:</label>
+                    {{ FlaskForm['pic' ~ i](class="form-control-file") }}
+                </div>
+                <div class="form-group py-2">
+                    <label for="answ{{ i }}" class="text-secondary">Ответ {{ i }}:</label>
+                    {{ FlaskForm['answ' ~ i](class="form-control text-secondary", style="height: 120px;") }}
+                </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-primary py-2">Отправить</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

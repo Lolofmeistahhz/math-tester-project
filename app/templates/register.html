@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+    {{ super() }}
+    <div class="login-wrapper">
+        <div class="bg">
+            <p>Добро пожаловать в систему тестирования "Верное решение", пожалуйста пройдите процесс регистрации!</p>
+        </div>
+        <div class="login">
+            <div class="l_content">
+                <h1 class="h">Регистрация</h1>
+               {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <div class="alert alert-danger">
+                            <ul class="mb-0">
+                                {% for message in messages %}
+                                    <li>{{ message }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                {% endwith %}
+                <form action="" method="post" name="register" action="{{ url_for('register') }}">
+                    {{ FlaskForm.hidden_tag() }}
+                    <p class="mb-2">
+                        Пожалуйста, придумайте логин:
+                    </p>
+                    <div class="form-group mb-3">
+                        {{ FlaskForm.login(size=30, autocomplete="off", class="form-control") }}
+                    </div>
+                    <p class="mb-2">
+                        Пожалуйста, придумайте пароль:
+                    </p>
+                    <div class="form-group mb-3">
+                        {{ FlaskForm.password(size=30, autocomplete="off", class="form-control") }}
+                    </div>
+                    <p class="mb-2">
+                        Повторите введенный пароль:
+                    </p>
+                    <div class="form-group mb-3">
+                        {{ FlaskForm.confirm_password(size=30, autocomplete="off", class="form-control") }}
+                    </div>
+                    <div class="d-grid">
+                        {{ FlaskForm.submit(class="btn btn-primary") }}
+                    </div>
+                </form>
+                <div class="mt-3">
+                    <a href="{{ url_for('index') }}" class="me-3">На главную</a>
+                    <a href="{{ url_for('login') }}">Авторизация</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

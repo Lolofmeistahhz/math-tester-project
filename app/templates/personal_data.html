@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+    {{ super() }}
+    <div class="pd-container">
+        <form action="" method="post" name="personal_data" class="form-horizontal">
+            {{ FlaskForm.hidden_tag() }}
+            <div class="row">
+                {% if FlaskForm.errors %}
+                    <div class="alert alert-danger col-md-10">
+                        {% for field, errors in FlaskForm.errors.items() %}
+                            {% for error in errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label for="{{ FlaskForm.surname.id }}">Пожалуйста, введите вашу фамилию:</label>
+                        {{ FlaskForm.surname(size=34, autocomplete="off", class="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ FlaskForm.name.id }}">Пожалуйста, введите ваше имя:</label>
+                        {{ FlaskForm.name(size=34, autocomplete="off", class="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ FlaskForm.patronomyc.id }}">Пожалуйста, введите ваше отчество:</label>
+                        {{ FlaskForm.patronomyc(size=34, autocomplete="off", class="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ FlaskForm.school.id }}">Пожалуйста, укажите вашу школу:</label>
+                        {{ FlaskForm.school(size=34, autocomplete="off", class="form-control") }}
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label for="{{ FlaskForm.s_class.id }}">Пожалуйста, укажите ваш класс:</label>
+                        {{ FlaskForm.s_class(size=34, autocomplete="off", class="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ FlaskForm.s_teacher.id }}">Укажите вашего преподавателя:</label>
+                        {{ FlaskForm.s_teacher(size=34, autocomplete="off", class="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ FlaskForm.email.id }}">Укажите ваш email:</label>
+                        {{ FlaskForm.email(size=34, autocomplete="off", class="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        <br>
+                        {{ FlaskForm.submit(class="btn btn-primary form-control mb-0") }}
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

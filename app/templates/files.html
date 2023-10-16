@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="tasks-container">
+        <div class="row">
+            <h1 class="text-center">{{ header }}</h1>
+            <div class="col-md-5 d-flex justify-content-center align-items-center">
+                <form method="get" action="" class="form-inline text-center">
+                    <div class="form-group ml-3">
+                        <label for="class">Фильтр по году:</label>
+                        <select name="year" id="year" class="form-control">
+                            <option value="" {% if not selected_year %}selected{% endif %}>Все года</option>
+                            {% for year in years %}
+                                <option value="{{ year }}"
+                                        {% if selected_year == year %}selected{% endif %}>
+                                    {{ year }} год
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group ml-3">
+                        <label for="class">Фильтр по классу:</label>
+                        <select name="class" id="class" class="form-control">
+                            <option value="" {% if not selected_class %}selected{% endif %}>Все классы</option>
+                            {% for class in classes %}
+                                <option value="{{ class }}"
+                                        {% if selected_class == class %}selected{% endif %}>
+                                    {{ class }} класс
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Применить</button>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="list-group">
+                    {% for pagination in pagination.items %}
+                        <li class="list-group-item">
+                            <div class="task-group">
+                                <img src="/static/images/pdf.png" class="pdf-ico col-md-1" alt="иконка документа">
+                                <a class="col-md-3"
+                                   href="{{ url_for('download', filename=pagination.pdf_file) }}">{{ pagination.title }}</a>
+                                <p class="cpl-md-3">{{ pagination.teach_class }} класс</p>
+                                <p class="cpl-md-3">({{ pagination.publication_year }})</p>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="pagination">
+                    {% if pagination.has_prev %}
+                        <span>
+                            <a class='page-number'
+                               href="{{ url_for('list_tasks', page=pagination.prev_num, year=selected_year) }}">
+                                {{ '<<<' }}
+                            </a>
+                        </span>
+                    {% endif %}
+
+                    {% for number in pagination.iter_pages() %}
+                        {% if pagination.page != number %}
+                            <span>
+                                <a class='page-number'
+                                   href="{{ url_for('list_tasks', page=number, year=selected_year) }}">
+                                    {{ number }}
+                                </a>
+                            </span>
+                        {% else %}
+                            <span class='current-page-number'>{{ number }}</span>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if pagination.has_next %}
+                        <span>
+                            <a class='page-number'
+                               href="{{ url_for('list_tasks', page=pagination.next_num, year=selected_year) }}">
+                                {{ '>>>' }}
+                            </a>
+                        </span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

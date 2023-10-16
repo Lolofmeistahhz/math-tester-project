@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="wrapper">
+
+        <section id="slider_bl">
+            <div class="wrapper">
+                <input checked type="radio" name="slider" id="slide1"/>
+                <input type="radio" name="slider" id="slide2"/>
+                <input type="radio" name="slider" id="slide3"/>
+                <input type="radio" name="slider" id="slide4"/>
+                     <input type="radio" name="slider" id="slide5"/>
+                <div class="slider-wrapper">
+                    <div class="inner">
+                        <article>
+                            <img src="../static/images/09.03.01.jpg"/>
+                        </article>
+                        <article>
+                            <img src="../static/images/09.03.02.jpg"/>
+                        </article>
+                        <article>
+                            <img src="../static/images/09.03.03.jpg"/>
+                        </article>
+                        <article>
+                            <img src="../static/images/09.03.04.jpg"/>
+                        </article>
+                        <article>
+                            <img src="../static/images/SPO.jpg" height="1449px"/>
+                        </article>
+                    </div>
+                </div>
+                <div class="slider-prev-next-control">
+                    <label for="slide1"></label>
+                    <label for="slide2"></label>
+                    <label for="slide3"></label>
+                    <label for="slide4"></label>
+                    <label for="slide5"></label>
+                </div>
+            </div>
+        </section>
+
+        <div class="agitation">
+            <div class="agit__logo">
+                <img src="../static/images/logo_IT.png" alt="">
+            </div>
+            <div class="agit__info">
+                <h1>Причины стать IT специалистом:</h1>
+                <p>IT - это круто и модно</p>
+                <p>Высокие заработные платы</p>
+                <p>Возможности для роста</p>
+                <p>Свободный выбор направления</p>
+            </div>
+        </div>
+        <div class="video">
+            <iframe width="100%" height="625" src="https://www.youtube.com/embed/Vty3aRcsOz4" title="IT BGITU"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen></iframe>
+        </div>
+
+    </div>
+{% endblock %}
