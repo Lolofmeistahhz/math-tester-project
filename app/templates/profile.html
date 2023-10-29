@@ -55,8 +55,6 @@
 
         <div class="info-head">
             <h1>Данные о тесте 9 класс : </h1>
-            <a href="{{ url_for('print_certificate',course_id=1) }}" class="logout" title="Распечатать сертификат"> <i
-                    class="fa-solid fa-certificate"></i></a>
         </div>
         <div class="test-info">
             {% for t9c in testdata9c %}
@@ -117,8 +115,6 @@
 
         <div class="info-head">
             <h1>Данные о тесте 10 класс : </h1>
-          <a href="{{ url_for('print_certificate',course_id=2) }}" class="logout" title="Распечатать сертификат"> <i
-                    class="fa-solid fa-certificate"></i></a>
         </div>
 
 
@@ -156,7 +152,7 @@
                     <tr>
                         <th scope="col">Вопрос</th>
                         {% for ra in user_ra10c %}
-                            <th>{{ ra.task.Question }}</th>
+                            <th>Вопрос {{ loop.index }}</th>
                         {% endfor %}
                     </tr>
                     <tr>
@@ -178,8 +174,6 @@
 
         <div class="info-head">
             <h1>Данные о тесте 11 класс : </h1>
-          <a href="{{ url_for('print_certificate',course_id=3) }}" class="logout" title="Распечатать сертификат"> <i
-                    class="fa-solid fa-certificate"></i></a>
         </div>
 
 
@@ -217,7 +211,7 @@
                     <tr>
                         <th scope="col">Вопрос</th>
                         {% for ra in user_ra11c %}
-                            <th>{{ ra.task.Question }}</th>
+                           <th>Вопрос {{ loop.index }}</th>
                         {% endfor %}
                     </tr>
                     <tr>

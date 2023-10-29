@@ -1,20 +1,23 @@
 {% extends "base.html" %}
 {% block content %}
     {{ super() }}
+    <script src="../static/scripts/DropDown.js"></script>
     <div class="result_wrapper">
-        {% for i in pagination.items %}
+        {% for i in pagination %}
             <div class="res-item">
-                <p>Ф.И.О. ученика: <br>{{ i.surname }} {{ i.name }} {{ i.patronomyc }}</p>
-                <p>Школа № {{ i.school }} <br> класс - {{ i.s_class }}</p>
-                <p>Преподаватель: <br>{{ i.s_teacher }}</p>
-                <p>Результат тестирования <br> {{ i.grade }} из 7
+                <p>Ф.И.О. ученика:
+                    <br>{{ i.UserPersonalInfo.surname }} {{ i.UserPersonalInfo.name }} {{ i.UserPersonalInfo.patronymic }}
                 </p>
+                <p>Школа № {{ i.UserPersonalInfo.school }} <br> класс - {{ i.UserPersonalInfo.s_class }}</p>
+                <p>Преподаватель: <br>{{ i.UserPersonalInfo.s_teacher }}</p>
+                <p>Тест: <br>{{ i.Test.Name }}</p>
+                <p>Результат: <br>{{ i.Test_result.grade }} из 7</p>
             </div>
         {% endfor %}
         <div class="pagination">
             {% if pagination.has_prev %}
                 <span>
-            <a class='page-number' href="{{ url_for('.test_result', page=pagination.prev_num) }}">
+            <a class='page-number' href="{{ url_for('test_result', page=pagination.prev_num) }}">
                 {{ '<<<' }}
             </a>
         </span>
@@ -24,7 +27,7 @@
                 {% if pagination.page != number %}
                     <span>
                     <a class='page-number'
-                       href="{{ url_for('.test_result', page=number) }}">
+                       href="{{ url_for('test_result', page=number) }}">
                     {{ number }}
                     </a>
             </span>
@@ -36,14 +39,14 @@
             {% if pagination.has_next %}
                 <span>
             <a class='page-number'
-               href="{{ url_for('.test_result', page=pagination.next_num) }}">
+               href="{{ url_for('test_result', page=pagination.next_num) }}">
                 {{ '>>>' }}
             </a>
         </span>
             {% endif %}
         </div>
     </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+            crossorigin="anonymous"></script>
 {% endblock %}
