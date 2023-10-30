@@ -1,61 +1,35 @@
 {% extends "base.html" %}
 {% block content %}
-    {{ super() }}
-    <div class="test-wrapper">
-        <div class="content">
-            <h1>Осталось времени</h1>
-            <div class="timer-box">
-                <div class="timer">
-                    <ul class="flex">
-                        <li id="hour"></li>
-                        <li id="minutes"></li>
-                        <li id="seconds"></li>
-                    </ul>
-                </div>
-                <ul class="flex time-name">
-                    <li>часы</li>
-                    <li>минуты</li>
-                    <li>секунды</li>
-                </ul>
-            </div>
-            <form name="test_form" method="POST" action="" onsubmit="{{ url_for('profile',id=profile) }}">
+
+<div class="container">
+    <!-- ========== Start Quiz Form ========== -->
+    <form class="form-quiz" name="test_form" method="POST" action="" onsubmit="{{ url_for('profile',id=profile) }}">
+        <div class="col-md-6 mx-auto">
+            <div class="row gy-4">
+                <h1 class="text-center mb-4">Тестирование {{test.Name}}</h1>
+
                 {% for task in tasks %}
-                    <div class="item">
-                        <h3>Вопрос номер {{ loop.index }}</h3>
-                        <p>{{ task.Question }}</p>
-                        {% if task.picture %}
-                            <img src="../static/images/{{ task.picture }}" class="formulas">
-                        {% endif %}
-                        <input type="text" name="answer{{ loop.index }}" id="answer{{ loop.index }}" autocomplete="off">
-                        <br>
-                    </div>
-                {% endfor %}
-                <div class="item">
-                    <div class="c_but">
-                        <input type="submit" name="button" id="button">
-                        <br>
+                <div class="col-md-12">
+                    <p class="fs-5">{{task.Question}}</p>
+                    {% if task.picture %}
+                    <img src="../static/images/{{task.picture}}" class="rounded w-100 mb-2"/>
+                    {% endif %}
+
+                    <div class="col-md-8">
+                        <input type="text" name="answer{{ loop.index }}" autocomplete="off" class="form-control">
                     </div>
                 </div>
-            </form>
+                {% endfor %}
+            </div>
+
+            <div class="col-md-6">
+                <input type="submit" class="btn btn-primary mt-4"
+                       name="button" id="button" value="Отправить">
+            </div>
         </div>
-        {#            <script type="text/javascript">#}
-        {#                setTimeout('window.location="login"', 5460000);#}
-        {#            </script>#}
-        <script type="text/javascript">
-            setTimeout(function () {
-                var formData = new FormData(document.forms['test_form']);
-                var xhr = new XMLHttpRequest();
-                xhr.open('POST', '', true);
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        window.location.href = "/";
-                    }
-                };
-                xhr.send(formData);
-            }, 5460000);
+    </form>
+    <!-- ========== End Quiz Form ========== -->
+</div>
 
-        </script>
-    </div>
-
-    <script src="../static/scripts/countdown.function.js"></script>
+<!--    <script src="../static/scripts/countdown.function.js"></script>-->
 {% endblock %}

@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Загрузка задания в архив</h1>
+<div class="container">
+    <h1 class="mt-4">Загрузка задания в архив</h1>
     <form method="POST" enctype="multipart/form-data">
         <div class="form-group">
             <label for="class">Выберите класс:</label>
@@ -11,14 +12,16 @@
                 <option value="11">11 класс</option>
             </select>
         </div>
-        <div class="form-group">
+        <div class="form-group my-2">
             <label for="task_name">Название задания:</label>
-            <input type="text" name="task_name" id="task_name" directory="{{ DOWNLOAD_FOLDER_ARCHIVE }}" class="form-control" required>
+            <input type="text" name="task_name" id="task_name" directory="{{ DOWNLOAD_FOLDER_ARCHIVE }}"
+                   class="form-control" required>
         </div>
-        <div class="form-group">
-            <label for="pdf_file">Файл задания (PDF):</label>
-            <input type="file" name="pdf_file" id="pdf_file" accept=".pdf" class="form-control-file" required>
+        <div class="form-group col-md-3">
+            <label for="pdf_file" class="form-label">Файл задания (PDF):</label>
+            <input class="form-control" name="pdf_file" type="file" id="pdf_file" accept=".pdf" required>
         </div>
-        <button type="submit" class="btn btn-primary">Загрузить</button>
+        <button type="submit" class="mt-3 btn btn-primary">Загрузить</button>
     </form>
+</div>
 {% endblock %}

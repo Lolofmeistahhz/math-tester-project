@@ -1,5 +1,9 @@
+import locale
+
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
+
+locale.setlocale(locale.LC_ALL, 'ru_RU.UTF-8')
 
 app = Flask(__name__)
 

@@ -15,7 +15,7 @@ Login_Manager = LoginManager(app)
 
 user_menu = [
     {'name': 'Главная', 'url': '/index'},
-    {'name': 'Авторизация', 'url': '/login'},
+    # {'name': 'Авторизация', 'url': '/login'},
     {
         'name': 'Тестирование',
         'submenu': [
@@ -37,7 +37,7 @@ admin_menu = [{'name': 'Главная', 'url': '/index'}, {
 }, {'name': 'Результаты', 'url': '/admin/test_result'},
               {'name': 'Методические указания', 'url': '/admin/upload_MU'},
               {'name': 'Архив заданий', 'url': '/admin/upload_archive'},
-              {'name': 'Выход', 'url': '/logout'}
+              # {'name': 'Выход', 'url': '/logout'}
               ]
 
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
@@ -67,11 +67,9 @@ def index():
     if current_user.is_authenticated:
         cur_u = User.query.filter(User.id == current_user.id).first()
         if cur_u.usertype == "Администратор":
-            return render_template("index.html", menu=admin_menu, footer=True)
-        elif cur_u.usertype == "Пользователь":
-            return render_template("index.html", menu=user_menu, footer=True)
-    else:
-        return render_template("index.html", menu=user_menu, footer=True)
+            return render_template('index.html', menu=admin_menu, title='Главная', footer=True)
+
+    return render_template("index.html", menu=user_menu, title='Главная', footer=True)
 
 
 @app.route('/login', methods=["GET", "POST"])
@@ -84,17 +82,17 @@ def login():
         if user and check_password_hash(user.password, form.password.data):
             if user.usertype == "Администратор":
                 login_user(user)
-                return render_template('index.html', menu=admin_menu)
+                return redirect(url_for('index'))
             else:
                 login_user(user)
-                return redirect(url_for('pd', menu=user_menu))
+                return redirect(url_for('pd'))
         else:
             flash("Неверный логин или пароль", "error")
-    return render_template("login.html", FlaskForm=form, title="Авторизация", menu=user_menu, footer=True)
+    return render_template("login.html", FlaskForm=form, title="Верное решение | Войти")
 
 
-@app.route('/register', methods=["GET", "POST"])
-def register():
+@app.route('/signup', methods=["GET", "POST"])
+def signup():
     form = regForm(request.form, crsf=True)
     if form.validate_on_submit():
         user = User.query.filter_by(login=form.login.data).first()
@@ -104,14 +102,67 @@ def register():
                 u = User(login=form.login.data, password=hashed_password, usertype="Пользователь")
                 db.session.add(u)
                 db.session.commit()
-                return redirect(url_for('login'))
+                return redirect(url_for('login', title='Верное решение | Войти'))
             elif user:
                 flash("Данный логин уже занят!", "danger")
-                return redirect(url_for('register'))
+                return redirect(url_for('signup', title='Верное решение | Регистрация'))
         else:
             flash("Введенные пароли не совпадают!", "danger")
-            return redirect(url_for('register'))
-    return render_template("register.html", FlaskForm=form, title="Регистрация", menu=user_menu, footer=True)
+            return redirect(url_for('signup'))
+    return render_template("signup.html", FlaskForm=form, title="Верное решение | Регистрация")
+
+
+# @app.route('/')
+# @app.route('/index')
+# def index():
+#     if current_user.is_authenticated:
+#         cur_u = User.query.filter(User.id == current_user.id).first()
+#         if cur_u.usertype == "Администратор":
+#             return render_template("index.html", menu=admin_menu, footer=True)
+#         elif cur_u.usertype == "Пользователь":
+#             return render_template("index.html", menu=user_menu, footer=True)
+#     else:
+#         return render_template("index.html", menu=user_menu, footer=True)
+#
+#
+# @app.route('/login', methods=["GET", "POST"])
+# def login():
+#     form = LoginForm(request.form)
+#     if current_user.is_authenticated:
+#         return redirect(url_for('index'))
+#     if form.validate_on_submit():
+#         user = User.query.filter_by(login=form.login.data).first()
+#         if user and check_password_hash(user.password, form.password.data):
+#             if user.usertype == "Администратор":
+#                 login_user(user)
+#                 return render_template('index.html', menu=admin_menu)
+#             else:
+#                 login_user(user)
+#                 return redirect(url_for('pd', menu=user_menu))
+#         else:
+#             flash("Неверный логин или пароль", "error")
+#     return render_template("login.html", FlaskForm=form, title="Авторизация", menu=user_menu, footer=True)
+#
+#
+# @app.route('/register', methods=["GET", "POST"])
+# def register():
+#     form = regForm(request.form, crsf=True)
+#     if form.validate_on_submit():
+#         user = User.query.filter_by(login=form.login.data).first()
+#         if form.password.data == form.confirm_password.data:
+#             if not user:
+#                 hashed_password = generate_password_hash(form.password.data)
+#                 u = User(login=form.login.data, password=hashed_password, usertype="Пользователь")
+#                 db.session.add(u)
+#                 db.session.commit()
+#                 return redirect(url_for('login'))
+#             elif user:
+#                 flash("Данный логин уже занят!", "danger")
+#                 return redirect(url_for('register'))
+#         else:
+#             flash("Введенные пароли не совпадают!", "danger")
+#             return redirect(url_for('register'))
+#     return render_template("register.html", FlaskForm=form, title="Регистрация", menu=user_menu, footer=True)
 
 
 @app.route('/change_log_data', methods=['GET', 'POST'])
@@ -130,8 +181,8 @@ def change_log_data():
             user.password = hashed_password
             db.session.commit()
             logout_user()
-            return render_template('index', menu=user_menu)
-    return render_template('edit_log_pass.html', FlaskForm=form)
+            return render_template('index', menu=user_menu, footer=True)
+    return render_template('edit_log_pass.html', FlaskForm=form, footer=True)
 
 
 @app.route('/personal_data', methods=["GET", "POST"])
@@ -188,7 +239,7 @@ def edit_pd():
 @app.route('/logout')
 def logout():
     logout_user()
-    return render_template('index.html', menu=user_menu)
+    return redirect(url_for('index'))
 
 
 @app.route('/profile/<string:id>')
@@ -325,8 +376,7 @@ def test_9c():
                     db.session.add(res)
                     db.session.commit()
 
-                    return redirect(
-                        url_for('profile', id=current_user.id, title="Личный кабинет", menu=user_menu, footer=True))
+                    return redirect(url_for('profile', id=current_user.id))
 
     if not test_result:
         return render_template("test.html", test=test, tasks=tasks, title="Тестирование", menu=user_menu, footer=True)
@@ -371,8 +421,7 @@ def test_10c():
                     db.session.add(res)
                     db.session.commit()
 
-                    return redirect(
-                        url_for('profile', id=current_user.id, title="Личный кабинет", menu=user_menu, footer=True))
+                    return redirect(url_for('profile', id=current_user.id))
 
     if not test_result:
         return render_template("test.html", test=test, tasks=tasks, title="Тестирование", menu=user_menu, footer=True)
@@ -417,8 +466,7 @@ def test_11c():
                     db.session.add(res)
                     db.session.commit()
 
-                    return redirect(
-                        url_for('profile', id=current_user.id, title="Личный кабинет", menu=user_menu, footer=True))
+                    return redirect(url_for('profile', id=current_user.id))
 
     if not test_result:
         return render_template("test.html", test=test, tasks=tasks, title="Тестирование", menu=user_menu, footer=True)
@@ -558,8 +606,8 @@ def edit_test():
             if not form.validate_on_submit():
                 print(form.errors)
         else:
-            return render_template('index.html', menu=user_menu, title='Главная страница')
-    return render_template("edit_test.html", FlaskForm=form, menu=admin_menu)
+            return render_template('index.html', menu=user_menu, title='Главная', footer=True)
+    return render_template("edit_test.html", FlaskForm=form, menu=admin_menu, footer=True)
 
 
 @app.route('/admin/edit/10c', methods=["GET", "POST"])
@@ -588,8 +636,8 @@ def edit_test_10c():
             if not form.validate_on_submit():
                 print(form.errors)
         else:
-            return render_template('index.html', menu=user_menu, title='Главная страница')
-    return render_template("edit_test.html", FlaskForm=form, menu=admin_menu)
+            return render_template('index.html', menu=user_menu, title='Главная', footer=True)
+    return render_template("edit_test.html", FlaskForm=form, menu=admin_menu, footer=True)
 
 
 @app.route('/admin/edit/11c', methods=["GET", "POST"])
@@ -618,8 +666,8 @@ def edit_test_11c():
             if not form.validate_on_submit():
                 print(form.errors)
         else:
-            return render_template('index.html', menu=user_menu, title='Главная страница')
-    return render_template("edit_test.html", FlaskForm=form, menu=admin_menu)
+            return render_template('index.html', menu=user_menu, title='Главная', footer=True)
+    return render_template("edit_test.html", FlaskForm=form, menu=admin_menu, footer=True)
 
 
 def allowed_file(filename):
@@ -651,8 +699,8 @@ def upload_file_MU():
 
                     return redirect(url_for('index'))
         else:
-            return render_template('index.html', menu=user_menu, title='Главная страница')
-    return render_template('upload.html', menu=admin_menu)
+            return render_template('index.html', menu=user_menu, title='Главная', footer=True)
+    return render_template('upload.html', menu=admin_menu, footer=True)
 
 
 @app.route('/admin/upload_archive', methods=['GET', 'POST'])
@@ -679,5 +727,5 @@ def upload_file_archive():
 
                     return redirect(url_for('list_tasks'))
             else:
-                return render_template('index.html', menu=user_menu, title='Главная страница')
-    return render_template('upload.html', menu=admin_menu)
+                return render_template('index.html', menu=user_menu, title='Главная', footer=True)
+    return render_template('upload.html', menu=admin_menu, footer=True)

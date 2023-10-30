@@ -28,21 +28,21 @@ class regForm(FlaskForm):
 
 class personalDataForm(FlaskForm):
     name = StringField('name',
-                          validators=[DataRequired(message='Поле обязательно для заполнения'), Length(min=3,max=50)])
+                       validators=[DataRequired(message='Поле обязательно для заполнения'), Length(min=3, max=50)])
     surname = StringField('surname',
-                          validators=[DataRequired(message='Поле обязательно для заполнения'), Length(min=3,max=50)])
-    patronomyc = StringField('patronomyc', validators=[Length(min=3,max=50)])
+                          validators=[DataRequired(message='Поле обязательно для заполнения'), Length(min=3, max=50)])
+    patronomyc = StringField('patronomyc', validators=[Length(min=3, max=50)])
     email = StringField('Email', validators=[DataRequired(message='Поле обязательно для заполнения'),
                                              Regexp(r'^[^@]+@[^@]+\.[^@]+$',
                                                     message='Адрес электронной почты должен содержать "@" и "."'),
-                                             Length(min=5,max=100)
+                                             Length(min=5, max=100)
                                              ])
     school = StringField('school',
-                         validators=[DataRequired(message='Поле обязательно для заполнения'), Length(min=1,max=120)])
+                         validators=[DataRequired(message='Поле обязательно для заполнения'), Length(min=1, max=120)])
     s_class = StringField('s_class',
-                          validators=[DataRequired(message='Поле обязательно для заполнения'), Length(min=1,max=10)])
+                          validators=[DataRequired(message='Поле обязательно для заполнения'), Length(min=1, max=10)])
     s_teacher = StringField('s_teacher',
-                            validators=[DataRequired(message='Поле обязательно для заполнения'), Length(min=3,max=60)])
+                            validators=[DataRequired(message='Поле обязательно для заполнения'), Length(min=3, max=60)])
     submit = SubmitField('Сохранить', validators=[DataRequired()])
 
     def __init__(self, *args, **kwargs):
@@ -75,4 +75,3 @@ class editTest(FlaskForm):
 
     def __init__(self, *args, **kwargs):
         super(editTest, self).__init__(*args, **kwargs)
-

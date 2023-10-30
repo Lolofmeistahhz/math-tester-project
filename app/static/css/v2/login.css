@@ -1,0 +1,25 @@
+@media only screen and (max-width: 768px) {
+    .login-page-aside {
+        display: none !important;
+    }
+
+    .login-page {
+        padding: 0 4em;
+    }
+
+    .login-page-form {
+        width: 100% !important;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    body {
+        display: block !important;
+        background: none;
+        padding-top: 0;
+    }
+
+    .login-page {
+        padding: 0 !important;
+    }
+}

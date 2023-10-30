@@ -1,234 +1,247 @@
 {% extends "base.html" %}
 {% block content %}
-    <script src="../static/scripts/DropDown.js"></script>
-    <div class="userinfo">
-        <div class="info-head">
-            <h1>Данные пользователя</h1>
-            <div class="icon-group">
-                <a href="{{ url_for('change_log_data') }}" class="logout" title="Изменить логин и пароль"> <i
-                        class="fa-solid fa-key"></i></a>
-                <a href="{{ url_for('edit_pd') }}" class="logout" title="Редактировать личные данные"><i
-                        class="fa-solid fa-user-pen"></i></a>
-                <a href="{{ url_for('logout') }}" class="logout" title="Выйти"><i
-                        class="fa-solid fa-right-from-bracket"></i></a>
-            </div>
+<div class="container">
+    <!-- ========== Start Test Results ========== -->
+    <div class="test-results my-4">
+        <div class="row">
+            <div class="card p-0">
+                <div class="px-4 py-3 card-header d-flex align-items-center">
+                    <p class="fs-3 me-auto m-0">Данные пользователя</p>
 
+                    <div class="d-flex">
+                        <a href="{{ url_for('change_log_data') }}" title="Изменить пароль"><i style="font-size: 2em;"
+                                                                                              class="bi bi-lock"></i></a>
+                        <a href="{{ url_for('edit_pd') }}" class="mx-2" title="Изменить данные профиля"><i
+                                style="font-size: 2em;" class="bi bi-person-fill"></i></a>
+                        <a href="{{ url_for('logout') }}" title="Выйти из системы"><i style="font-size: 2em;"
+                                                                                      class="bi bi-box-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="flex-wrap card-body">
+                    <div class="row justify-content-around">
+                        <div class="col text-center">
+                            <p class="fs-4 fw-bold">Фамилия</p>
+                            <p class="fs-5">{{ user.surname }}</p>
+                        </div>
+                        <div class="col text-center">
+                            <p class="fs-4 fw-bold">Имя</p>
+                            <p class="fs-5">{{ user.name }}</p>
+                        </div>
+                        <div class="col text-center">
+                            <p class="fs-4 fw-bold">Отчество</p>
+                            <p class="fs-5">{{ user.patronymic }}</p>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-around">
+                        <div class="col text-center">
+                            <p class="fs-4 fw-bold">Школа</p>
+                            <p class="fs-5">{{ user.school }}</p>
+                        </div>
+                        <div class="col text-center">
+                            <p class="fs-4 fw-bold">Класс</p>
+                            <p class="fs-5">{{ user.s_class }}</p>
+                        </div>
+                        <div class="col text-center">
+                            <p class="fs-4 fw-bold">Преподаватель</p>
+                            <p class="fs-5">{{ user.s_teacher }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
         <div class="row">
-            <div class="col-md-4">
-                <div class="maininfo">
-                    <div class="info-item text-center"><p>Фамилия:</p> {{ user.surname }}</div>
+            {% if testdata9c.count() !=0 %}
+            <div class="mt-4 p-0 card">
+                <div class="card-header d-flex py-3 px-4 align-items-center">
+                    <p class="fs-3 me-auto m-0">Данные о тесте (9 класс)</p>
+                </div>
+
+                <div class="card-body">
+                    {% for t9c in testdata9c %}
+                    <div class="row">
+                        <div class="text-center">
+                            <p class="fs-4 fw-bold m-0">Дата и время прохождения</p>
+                            <p class="fs-5">{{ t9c.date_time.strftime('%d %b %Y в %H:%M') }}</p>
+                        </div>
+
+                        <div class="text-center">
+                            <p class="fs-4 fw-bold m-0">Название теста</p>
+                            <p class="fs-5">{{ t9c.Name }}</p>
+                        </div>
+
+                        <div class="text-center">
+                            <p class="fs-4 fw-bold m-0">Решено заданий</p>
+                            <p class="fs-5">{{ t9c.grade }} / 7</p>
+                        </div>
+
+                        <div class="text-center my-2">
+                            <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#testResult_{{ t9c.date_time.timestamp()|round|int}}"
+                                    aria-expanded="false"
+                                    aria-controls="testResult_{{ t9c.date_time.timestamp()|round|int}}">Показать
+                                результаты
+                            </button>
+
+                            <div class="collapse mt-4" id="testResult_{{ t9c.date_time.timestamp()|round|int }}">
+                                <div class="card card-body">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <tr>
+                                                <th scope="col">Вопрос</th>
+                                                {% for ra in user_ra9c %}
+                                                <th>Вопрос {{ loop.index }}</th>
+                                                {% endfor %}
+                                            </tr>
+                                            <tr>
+                                                <td>Ответ</td>
+                                                {% for ra in user_ra9c %}
+                                                {% if ra.is_answer_correct == True %}
+                                                <td class="text-success">Верно</td>
+                                                {% elif ra.is_answer_correct == False %}
+                                                <td class="text-danger">Неверно</td>
+                                                {% endif %}
+                                                {% endfor %}
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="maininfo">
-                    <div class="info-item text-center"><p>Имя:</p> {{ user.name }}</div>
+            {% endif %}
+
+            {% if testdata10c.count() !=0 %}
+            <div class="mt-4 p-0 card">
+                <div class="card-header d-flex py-3 px-4 align-items-center">
+                    <p class="fs-3 me-auto m-0">Данные о тесте (10 класс)</p>
+                </div>
+
+                <div class="card-body">
+                    {% for t10c in testdata10c %}
+                    <div class="row">
+                        <div class="text-center">
+                            <p class="fs-4 fw-bold m-0">Дата и время прохождения</p>
+                            <p class="fs-5">{{ t10c.date_time.strftime('%d %b %Y в %H:%M') }}</p>
+                        </div>
+
+                        <div class="text-center">
+                            <p class="fs-4 fw-bold m-0">Название теста</p>
+                            <p class="fs-5">{{ t10c.Name }}</p>
+                        </div>
+
+                        <div class="text-center">
+                            <p class="fs-4 fw-bold m-0">Решено заданий</p>
+                            <p class="fs-5">{{ t10c.grade }} / 7</p>
+                        </div>
+
+                        <div class="text-center my-2">
+                            <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#testResult_{{ t10c.date_time.timestamp()|round|int}}"
+                                    aria-expanded="false"
+                                    aria-controls="testResult_{{ t10c.date_time.timestamp()|round|int}}">Показать
+                                результаты
+                            </button>
+
+                            <div class="collapse mt-4" id="testResult_{{ t10c.date_time.timestamp()|round|int}}">
+                                <div class="card card-body">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <tr>
+                                                <th scope="col">Вопрос</th>
+                                                {% for ra in user_ra10c %}
+                                                <th>Вопрос {{ loop.index }}</th>
+                                                {% endfor %}
+                                            </tr>
+                                            <tr>
+                                                <td>Ответ</td>
+                                                {% for ra in user_ra10c %}
+                                                {% if ra.is_answer_correct == True %}
+                                                <td class="text-success">Верно</td>
+                                                {% elif ra.is_answer_correct == False %}
+                                                <td class="text-danger">Неверно</td>
+                                                {% endif %}
+                                                {% endfor %}
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="maininfo">
-                    <div class="info-item text-center"><p>Отчество:</p> {{ user.patronymic }}</div>
+            {% endif %}
+
+            {% if testdata11c.count() !=0 %}
+            <div class="mt-4 p-0 card">
+                <div class="card-header d-flex py-3 px-4 align-items-center">
+                    <p class="fs-3 me-auto m-0">Данные о тесте (11 класс)</p>
+                </div>
+
+                <div class="card-body">
+                    {% for t11c in testdata11c %}
+                    <div class="row">
+                        <div class="text-center">
+                            <p class="fs-4 fw-bold m-0">Дата и время прохождения</p>
+                            <p class="fs-5">{{ t11c.date_time.strftime('%d %b %Y в %H:%M') }}</p>
+                        </div>
+
+                        <div class="text-center">
+                            <p class="fs-4 fw-bold m-0">Название теста</p>
+                            <p class="fs-5">{{ t11c.Name }}</p>
+                        </div>
+
+                        <div class="text-center">
+                            <p class="fs-4 fw-bold m-0">Решено заданий</p>
+                            <p class="fs-5">{{ t11c.grade }} / 7</p>
+                        </div>
+
+                        <div class="text-center my-2">
+                            <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#testResult_{{ t11c.date_time.timestamp()|round|int}}" aria-expanded="false"
+                                    aria-controls="testResult_{{ t11c.date_time.timestamp()|round|int}}">Показать результаты
+                            </button>
+
+                            <div class="collapse mt-4" id="testResult_{{ t11c.date_time.timestamp()|round|int}}">
+                                <div class="card card-body">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <tr>
+                                                <th scope="col">Вопрос</th>
+                                                {% for ra in user_ra11c %}
+                                                <th>Вопрос {{ loop.index }}</th>
+                                                {% endfor %}
+                                            </tr>
+                                            <tr>
+                                                <td>Ответ</td>
+                                                {% for ra in user_ra11c %}
+                                                {% if ra.is_answer_correct == True %}
+                                                <td class="text-success">Верно</td>
+                                                {% elif ra.is_answer_correct == False %}
+                                                <td class="text-danger">Неверно</td>
+                                                {% endif %}
+                                                {% endfor %}
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="maininfo">
-                    <div class="info-item text-center"><p>Школа:</p> {{ user.school }}</div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="maininfo">
-                    <div class="info-item text-center"><p>Класс:</p> {{ user.s_class }}</div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="maininfo">
-                    <div class="info-item text-center"><p>Преподаватель:</p> {{ user.s_teacher }}</div>
-                </div>
-            </div>
+            {% endif %}
         </div>
     </div>
-
-
-    {% if testdata9c.count() !=0 %}
-
-        <div class="info-head">
-            <h1>Данные о тесте 9 класс : </h1>
-        </div>
-        <div class="test-info">
-            {% for t9c in testdata9c %}
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="test-item text-center"><p>Название теста</p>
-                            <p>{{ t9c.Name }}</p></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="test-item text-center">
-                            <p>Решено заданий</p>
-                            <p>{{ t9c.grade }} из 7</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="test-item text-center">
-                            <p>Дата и время прохождения теста</p>
-                            <p>{{ t9c.date_time.isoformat(" ","seconds") }}</p>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="test-item text-center">
-                            <a id="toggleButton9" class="hb_btn">Показать</a>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-            <div class="hiddenBlock9" id="hiddenBlock9">
-                <div class="table-responsive">
-                    <table class="table">
-                        <tr>
-                            <th scope="col">Вопрос</th>
-                            {% for ra in user_ra9c %}
-                                <th>Вопрос {{ loop.index }}</th>
-                            {% endfor %}
-                        </tr>
-                        <tr>
-                            <td>Ответ</td>
-                            {% for ra in user_ra9c %}
-                                {% if ra.is_answer_correct == True %}
-                                    <td>Верно</td>
-                                {% elif ra.is_answer_correct == False %}
-                                    <td class="incorrect">Неверно</td>
-                                {% endif %}
-                            {% endfor %}
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-    {% endif %}
-
-
-
-    {% if testdata10c.count() !=0 %}
-
-        <div class="info-head">
-            <h1>Данные о тесте 10 класс : </h1>
-        </div>
-
-
-        <div class="test-info ">
-            {% for t10c in testdata10c %}
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="test-item text-center"><p>Название теста</p>
-                            <p>{{ t10c.Name }} </p></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="test-item text-center">
-                            <p>Решено заданий</p>
-                            <p>{{ t10c.grade }} из 7</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="test-item text-center">
-                            <p>Дата и время прохождения теста</p>
-                            <p>{{ t10c.date_time.isoformat(" ","seconds") }}</p>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="test-item text-center">
-                            <a id="toggleButton10" class="hb_btn">Показать</a>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-            <div class="hiddenBlock10" id="hiddenBlock10">
-
-                <table class="table">
-                    <tr>
-                        <th scope="col">Вопрос</th>
-                        {% for ra in user_ra10c %}
-                            <th>Вопрос {{ loop.index }}</th>
-                        {% endfor %}
-                    </tr>
-                    <tr>
-                        <td>Ответ</td>
-                        {% for ra in user_ra10c %}
-                            {% if ra.is_answer_correct == True %}
-                                <td>Верно</td>
-                            {% elif ra.is_answer_correct == False %}
-                                <td class="incorrect">Неверно</td>
-                            {% endif %}
-                        {% endfor %}
-                    </tr>
-                </table>
-            </div>
-        </div>
-    {% endif %}
-
-    {% if testdata11c.count() !=0 %}
-
-        <div class="info-head">
-            <h1>Данные о тесте 11 класс : </h1>
-        </div>
-
-
-        <div class="test-info">
-            {% for t11c in testdata11c %}
-                <div class="row">
-
-                    <div class="col-md-6">
-                        <div class="test-item text-center"><p>Название теста</p>
-                            <p>{{ t11c.Name }} </p></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="test-item text-center">
-                            <p>Решено заданий</p>
-                            <p>{{ t11c.grade }} из 7</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="test-item text-center">
-                            <p>Дата и время прохождения теста</p>
-                            <p>{{ t11c.date_time.isoformat(" ","seconds") }}</p>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="test-item text-center">
-                            <a id="toggleButton11" class="hb_btn">Показать</a>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-            <div class="hiddenBlock11" id="hiddenBlock11">
-                <table class="table">
-                    <tr>
-                        <th scope="col">Вопрос</th>
-                        {% for ra in user_ra11c %}
-                           <th>Вопрос {{ loop.index }}</th>
-                        {% endfor %}
-                    </tr>
-                    <tr>
-                        <td>Ответ</td>
-                        {% for ra in user_ra11c %}
-                            {% if ra.is_answer_correct == True %}
-                                <td>Верно</td>
-                            {% elif ra.is_answer_correct == False %}
-                                <td class="incorrect">Неверно</td>
-                            {% endif %}
-                        {% endfor %}
-                    </tr>
-                </table>
-            </div>
-        </div>
-    {% endif %}
-
-    </div>
-    <script src="../static/scripts/DropDown.js"></script>
+    <!-- ========== End Test Results ========== -->
+</div>
+<!--    <script src="../static/scripts/DropDown.js"></script>-->
 {% endblock %}
