@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/v2/login.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row bg-body rounded login-page">
+        <div class="d-flex col-md-6 px-0 login-page-aside">
+            <div class="login-page-image d-flex align-items-center">
+                <p class="fs-3">Добро пожаловать в систему тестирования "Верное решение", пожалуйста пройдите
+                    процесс регистрации!</p>
+            </div>
+        </div>
+        <div class="d-flex col-md-6">
+            <div class="form-signin m-auto">
+                <form method="post" name="register" action="{{ url_for('signup') }}">
+                    {{ FlaskForm.hidden_tag() }}
+
+                    <img class="mb-4" src="{{url_for('static', filename='images/v2/bgitu_logo.png')}}" alt=""
+                         width="72">
+                    <h1 class="h3 mb-3 fw-normal">Зарегистрироваться</h1>
+
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    <div class="alert alert-danger">
+                        <ul class="mb-0">
+                            {% for message in messages %}
+                            <li>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                    {% endwith %}
+
+                    <div class="form-floating">
+                        {{ FlaskForm.login(size=30, autocomplete="off", class="form-control", id="floatingInput") }}
+                        <label for="floatingInput">Введите логин</label>
+                    </div>
+                    <div class="form-floating">
+                        {{ FlaskForm.password(size=30, autocomplete="off", class="form-control", id="floatingPassword")
+                        }}
+                        <label for="floatingPassword">Введите пароль</label>
+                    </div>
+
+                    <div class="form-floating">
+                        {{ FlaskForm.confirm_password(size=30, autocomplete="off",
+                        class="form-control", id="floatingPasswordRepeat") }}
+                        <label for="floatingPassword">Подтвердите пароль</label>
+                    </div>
+
+                    {{ FlaskForm.submit(class="btn btn-primary w-100 py-2 my-2") }}
+
+                    <div class="d-flex justify-content-between align-items-center  pt-2">
+                        <p class="text-center"><a href="{{url_for('login')}}" class="link-underline">Назад</a>
+                        </p>
+                        <p class="text-center"><a href="/" class="link-underline">На главную</a></p>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+{% endblock %}

@@ -1,60 +1,46 @@
 {% extends "base.html" %}
+
 {% block content %}
-    <div class="wrapper">
+<!-- ========== Start Slider ========== -->
+<div class="container">
+    <swiper-container class="mySwiper" pagination="true" pagination-clickable="true" navigation="true"
+                      space-between="30" centered-slides="true" autoplay-delay="3500"
+                      autoplay-disable-on-interaction="false"
+                      loop="true">
+        <swiper-slide><img src="{{url_for('static', filename='images/v2/slide_1.jpg')}}"/></swiper-slide>
+        <swiper-slide><img src="{{url_for('static', filename='images/v2/slide_2.jpg')}}"/></swiper-slide>
+        <swiper-slide><img src="{{url_for('static', filename='images/v2/slide_3.jpg')}}"/></swiper-slide>
+        <swiper-slide><img src="{{url_for('static', filename='images/v2/slide_4.jpg')}}"/></swiper-slide>
+        <swiper-slide><img src="{{url_for('static', filename='images/v2/slide_5.jpg')}}"/></swiper-slide>
+    </swiper-container>
+    <!-- ========== End Slider ========== -->
 
-        <section id="slider_bl">
-            <div class="wrapper">
-                <input checked type="radio" name="slider" id="slide1"/>
-                <input type="radio" name="slider" id="slide2"/>
-                <input type="radio" name="slider" id="slide3"/>
-                <input type="radio" name="slider" id="slide4"/>
-                     <input type="radio" name="slider" id="slide5"/>
-                <div class="slider-wrapper">
-                    <div class="inner">
-                        <article>
-                            <img src="../static/images/09.03.01.jpg"/>
-                        </article>
-                        <article>
-                            <img src="../static/images/09.03.02.jpg"/>
-                        </article>
-                        <article>
-                            <img src="../static/images/09.03.03.jpg"/>
-                        </article>
-                        <article>
-                            <img src="../static/images/09.03.04.jpg"/>
-                        </article>
-                        <article>
-                            <img src="../static/images/SPO.jpg" height="1449px"/>
-                        </article>
-                    </div>
-                </div>
-                <div class="slider-prev-next-control">
-                    <label for="slide1"></label>
-                    <label for="slide2"></label>
-                    <label for="slide3"></label>
-                    <label for="slide4"></label>
-                    <label for="slide5"></label>
-                </div>
-            </div>
-        </section>
-
-        <div class="agitation">
-            <div class="agit__logo">
-                <img src="../static/images/logo_IT.png" alt="">
+    <!-- ========== Start Agitation ========== -->
+    <div class="agitation d-flex p-lg-4">
+        <div class="d-flex flex-wrap my-4 mx-auto
+        align-items-center justify-content-evenly
+        px-4">
+            <div class="agit__logo col-6 col-md-4">
+                <img src="{{url_for('static', filename='images/v2/bgitu_it_logo.png')}}" alt="IT Bgitu Logo">
             </div>
             <div class="agit__info">
-                <h1>Причины стать IT специалистом:</h1>
-                <p>IT - это круто и модно</p>
-                <p>Высокие заработные платы</p>
-                <p>Возможности для роста</p>
-                <p>Свободный выбор направления</p>
+                <h2>Причины стать <br/>IT специалистом:</h2>
+                <p class="m-0">IT - это круто и модно <br/>
+                    Высокие заработные платы <br/>
+                    Возможности для роста <br/>
+                    Свободный выбор направления
+                </p>
             </div>
         </div>
-        <div class="video">
-            <iframe width="100%" height="625" src="https://www.youtube.com/embed/Vty3aRcsOz4" title="IT BGITU"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowfullscreen></iframe>
-        </div>
-
     </div>
+    <!-- ========== End Agitation ========== -->
+</div>
+
+<!-- ========== Start Bgitu Welcome Video ========== -->
+<div class="it-bgitu-welcome">
+    <iframe src="https://www.youtube.com/embed/Vty3aRcsOz4" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen></iframe>
+</div>
+<!-- ========== End Bgitu Welcome Video ========== -->
 {% endblock %}

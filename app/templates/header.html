@@ -1,0 +1,58 @@
+<header>
+    <nav class="navbar navbar-expand-lg bg-body fixed-top px-2 py-3">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar"
+                    aria-expanded="false">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="/">Верное решение</a>
+
+            <div class="d-flex signup-btn">
+                {% if current_user.is_authenticated %}
+                <div class="d-flex signup-btn">
+                    <div class="dropdown">
+                        <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <!--                            <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32"-->
+                            <!--                                 class="rounded-circle">-->
+                            <img src="{{url_for('static', filename='images/v2/profile-image.png')}}" alt="avatar"
+                                 width="36" height="36"
+                                 class="rounded-circle">
+                        </a>
+                        <ul class="dropdown-menu text-small shadow"
+                            style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate(0px, 34px);">
+                            <li><a class="dropdown-item" href="{{ url_for('profile', id=current_user.id) }}">{{current_user.login}}</a>
+                            </li>
+                            <div class="dropdown-divider"></div>
+                            <li><a class="dropdown-item" href="{{url_for('logout')}}">Выйти</a></li>
+                        </ul>
+                    </div>
+                </div>
+                {% else %}
+                <a href="{{url_for('login')}}" class="btn btn-primary px-4">Войти</a>
+                {% endif %}
+            </div>
+
+
+            <div class="collapse navbar-collapse" id="navbar">
+                <ul class="navbar-nav  me-auto mb-2 mb-md-0">
+                    {% for m in menu %}
+                    {% if m.submenu %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"
+                           aria-expanded="false">{{m.name}}</a>
+                        <ul class="dropdown-menu">
+                            {% for sub in m.submenu %}
+                            <li><a class="dropdown-item" href="{{sub.url}}">{{sub.name}}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    {% else %}
+                    <li class="nav-item"><a class="nav-link" href="{{m.url}}">{{m.name}}</a></li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>

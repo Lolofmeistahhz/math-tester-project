@@ -1,0 +1,135 @@
+body {
+    padding-top: 4.5rem;
+    background-color: #d7e9eb;
+}
+
+.link-underline {
+    text-decoration: none;
+}
+
+
+/***** Swiper *****/
+swiper-container {
+    width: 100%;
+    height: 100%;
+}
+
+swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+swiper-slide img {
+    display: block;
+    width: 100%;
+    max-height: 720px;
+    object-fit: cover;
+}
+
+swiper-container {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/***** End Swiper *****/
+
+
+/***** Agitation *****/
+.agitation {
+    text-align: center;
+    background-image: url("../../images/v2/pattern.png");
+    background-attachment: fixed;
+    color: #282454;
+    background-position: 50%;
+    background-color: rgba(248, 248, 255, 0.8);
+}
+
+.agit__logo img {
+    width: 100%;
+    min-width: 80px;
+    padding-right: 2em;
+}
+
+.agit__info>h2 {
+    font-family: 'Montserrat';
+    font-weight: 500;
+    font-size: 2.4rem;
+}
+
+.agit__info>p {
+    font-family: 'Montserrat';
+    font-size: 1.4rem;
+}
+
+/***** End Agitation *****/
+
+
+/***** Welcome Video *****/
+.it-bgitu-welcome {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+}
+
+.it-bgitu-welcome iframe {
+    width: 100%;
+    height: 100%;
+}
+
+/***** End Welcome Video *****/
+
+/***** Login page *****/
+
+.login-page {
+    height: 748px;
+}
+
+.login-page-image {
+    background-image: url('../../images/v2/login_background.jpg');
+    width: 100%;
+    height: 100%;
+    color: white;
+    border-radius: var(--bs-border-radius) 0 0 var(--bs-border-radius) !important;
+    padding: 0 48px;
+}
+
+.login-page-aside p {
+    font-family: 'Montserrat';
+    font-weight: 500;
+}
+
+.form-signin .form-floating:focus-within {
+    z-index: 2;
+}
+
+.form-signin #floatingPassword,
+.form-signin input[type="text"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+/***** End Login page *****/
+
+
+.form-quiz {
+    margin: 32px 0;
+}
+
+
+@media only screen and (min-width: 992px) {
+    .signup-btn {
+        order: 2;
+    }
+}

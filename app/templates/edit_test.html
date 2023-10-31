@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
     {{ super() }}
-    <div class="test-wrapper">
+    <div class="container">
+        <div class="test-wrapper">
         <div class="content">
             <form action="" method="post" name="edit_test" enctype="multipart/form-data" class="py-3">
                 {{ FlaskForm.hidden_tag() }}
@@ -22,5 +23,6 @@
                 <button type="submit" class="btn btn-primary py-2">Отправить</button>
             </form>
         </div>
+    </div>
     </div>
 {% endblock %}
