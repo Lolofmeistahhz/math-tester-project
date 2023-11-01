@@ -54,13 +54,13 @@ swiper-container {
     padding-right: 2em;
 }
 
-.agit__info>h2 {
+.agit__info > h2 {
     font-family: 'Montserrat';
     font-weight: 500;
     font-size: 2.4rem;
 }
 
-.agit__info>p {
+.agit__info > p {
     font-family: 'Montserrat';
     font-size: 1.4rem;
 }
@@ -98,6 +98,29 @@ swiper-container {
     padding: 0 48px;
 }
 
+.pagination {
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+}
+
+.page-number {
+    padding: 5px 10px;
+    border: 1px solid #007BFF;
+    color: #007BFF;
+    text-decoration: none;
+    margin: 2px;
+}
+
+.current-page-number {
+    padding: 5px 10px;
+    background-color: #007BFF;
+    color: white;
+    margin: 2px;
+}
+
 .login-page-aside p {
     font-family: 'Montserrat';
     font-weight: 500;
@@ -133,3 +156,4 @@ swiper-container {
         order: 2;
     }
 }
+

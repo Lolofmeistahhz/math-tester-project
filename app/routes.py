@@ -490,37 +490,26 @@ def list_MU():
         if cur_u.usertype == "Администратор":
             return render_template("index.html", menu=admin_menu, footer=True)
 
-    tasks = MUList.query.all()
-    years = set(task.publication_year for task in tasks)
+    tasks_query = MUList.query
+    years = set(task.publication_year for task in tasks_query)
     years = sorted(years, reverse=True)
-    classes = set(task.teach_class for task in tasks)
+    classes = set(task.teach_class for task in tasks_query)
     classes = sorted(classes, reverse=True)
 
-    page = request.args.get('page', 1, type=int)
-    pagination = db.session.query(MUList.title, MUList.publication_year, MUList.teach_class, MUList.pdf_file).paginate(
-        page=page, per_page=5)
     selected_year = request.args.get('year')
-    if selected_year:
-        pagination = db.session.query(MUList.title, MUList.publication_year, MUList.pdf_file,
-                                      MUList.teach_class).filter_by(
-            publication_year=selected_year).paginate(
-            page=page, per_page=5)
     selected_class = request.args.get('class')
+
+    if selected_year:
+        tasks_query = tasks_query.filter(MUList.publication_year == selected_year)
     if selected_class:
-        pagination = db.session.query(MUList.title, MUList.publication_year, MUList.pdf_file,
-                                      MUList.teach_class).filter_by(
-            teach_class=selected_class).paginate(
-            page=page, per_page=5)
-    if selected_class and selected_year:
-        pagination = db.session.query(MUList.title, MUList.publication_year, MUList.pdf_file,
-                                      MUList.teach_class).filter_by(
-            teach_class=selected_class, publication_year=selected_year).paginate(
-            page=page, per_page=5)
+        tasks_query = tasks_query.filter(MUList.teach_class == selected_class)
+
+    page = request.args.get('page', 1, type=int)
+    pagination = tasks_query.paginate(page=page, per_page=5)
 
     return render_template('files.html', years=years, classes=classes, menu=user_menu, selected_year=selected_year,
-                           selected_class=selected_class,
-                           pagination=pagination, header="Методические указания", title="Методические указания",
-                           footer=True)
+                           selected_class=selected_class, pagination=pagination, header="Методические указания",
+                           title="Методические указания", footer=True,link='list_MU')
 
 
 @app.route('/task_archive', methods=['GET', 'POST'])
@@ -530,39 +519,26 @@ def list_tasks():
         if cur_u.usertype == "Администратор":
             return render_template("index.html", menu=admin_menu, footer=True)
 
-    tasks = TaskArchive.query.all()
-
-    years = set(task.publication_year for task in tasks)
+    tasks_query = TaskArchive.query
+    years = set(task.publication_year for task in tasks_query)
     years = sorted(years, reverse=True)
-    classes = set(task.teach_class for task in tasks)
+    classes = set(task.teach_class for task in tasks_query)
     classes = sorted(classes, reverse=True)
 
-    page = request.args.get('page', 1, type=int)
-    pagination = db.session.query(TaskArchive.title, TaskArchive.publication_year, TaskArchive.teach_class,
-                                  TaskArchive.pdf_file).paginate(
-        page=page, per_page=5)
     selected_year = request.args.get('year')
-    if selected_year:
-        pagination = db.session.query(TaskArchive.title, TaskArchive.publication_year, TaskArchive.pdf_file,
-                                      TaskArchive.teach_class).filter_by(
-            publication_year=selected_year).paginate(
-            page=page, per_page=5)
     selected_class = request.args.get('class')
+
+    if selected_year:
+        tasks_query = tasks_query.filter(TaskArchive.publication_year == selected_year)
     if selected_class:
-        pagination = db.session.query(TaskArchive.title, TaskArchive.publication_year, TaskArchive.pdf_file,
-                                      TaskArchive.teach_class).filter_by(
-            teach_class=selected_class).paginate(
-            page=page, per_page=5)
-    if selected_class and selected_year:
-        pagination = db.session.query(TaskArchive.title, TaskArchive.publication_year, TaskArchive.pdf_file,
-                                      TaskArchive.teach_class).filter_by(
-            teach_class=selected_class, publication_year=selected_year).paginate(
-            page=page, per_page=5)
+        tasks_query = tasks_query.filter(TaskArchive.teach_class == selected_class)
+
+    page = request.args.get('page', 1, type=int)
+    pagination = tasks_query.paginate(page=page, per_page=5)
 
     return render_template('files.html', years=years, classes=classes, menu=user_menu, selected_year=selected_year,
-                           selected_class=selected_class,
-                           pagination=pagination, header="Методические указания", title="Методические указания",
-                           footer=True)
+                           selected_class=selected_class, pagination=pagination, header="Методические указания",
+                           title="Методические указания", footer=True,link='list_tasks')
 
 
 @app.route('/download/<path:filename>', methods=['GET', 'POST'])
