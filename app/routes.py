@@ -47,8 +47,8 @@ UPLOAD_FOLDER_MU = 'app/static/MU/'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['UPLOAD_FOLDER_ARCHIVE'] = UPLOAD_FOLDER_ARCHIVE
 app.config['UPLOAD_FOLDER_MU'] = UPLOAD_FOLDER_MU
-DOWNLOAD_FOLDER_ARCHIVE = '../app/static/Archive/'
-DOWNLOAD_FOLDER_MU = '../app/static/MU/'
+DOWNLOAD_FOLDER_ARCHIVE = 'static/Archive/'
+DOWNLOAD_FOLDER_MU = 'static/MU/'
 DOWNLOAD_FOLDER_CERTIFICATE = 'app/static/сertificates/'
 FONT_PATH = 'app/static/fonts/DejaVuSans.ttf'
 app.config['DOWNLOAD_FOLDER_ARCHIVE'] = DOWNLOAD_FOLDER_ARCHIVE
@@ -509,7 +509,7 @@ def list_MU():
 
     return render_template('files.html', years=years, classes=classes, menu=user_menu, selected_year=selected_year,
                            selected_class=selected_class, pagination=pagination, header="Методические указания",
-                           title="Методические указания", footer=True,link='list_MU')
+                           title="Методические указания", footer=True, link='list_MU')
 
 
 @app.route('/task_archive', methods=['GET', 'POST'])
@@ -537,8 +537,8 @@ def list_tasks():
     pagination = tasks_query.paginate(page=page, per_page=5)
 
     return render_template('files.html', years=years, classes=classes, menu=user_menu, selected_year=selected_year,
-                           selected_class=selected_class, pagination=pagination, header="Методические указания",
-                           title="Методические указания", footer=True,link='list_tasks')
+                           selected_class=selected_class, pagination=pagination, header="Архив заданий",
+                           title="Архив заданий", footer=True, link='list_tasks')
 
 
 @app.route('/download/<path:filename>', methods=['GET', 'POST'])
@@ -551,18 +551,13 @@ def download(filename):
 def test_result():
     if current_user.is_authenticated:
         cur_u = User.query.filter(User.id == current_user.id).first()
-        if cur_u.usertype == "Администратор":
-            return render_template("index.html", menu=admin_menu, footer=True)
-
-            page = request.args.get('page', 1, type=int)
-            pagination = db.session.query(UserPersonalInfo, Test, Test_result).filter(
-                UserPersonalInfo.user_id == User.id).filter(
-                Test_result.user_id == User.id).filter(Test_result.test_id == Test.id).paginate(
-                page=page, per_page=5)
-            return render_template('test_result.html', pagination=pagination, title="Просмотр результатов",
-                                   menu=admin_menu)
-        else:
-            return render_template('index.html', menu=user_menu, title='Главная страница')
+        page = request.args.get('page', 1, type=int)
+        pagination = db.session.query(UserPersonalInfo, Test, Test_result).filter(
+            UserPersonalInfo.user_id == User.id).filter(
+            Test_result.user_id == User.id).filter(Test_result.test_id == Test.id).paginate(
+            page=page, per_page=4)
+        return render_template('test_result.html', pagination=pagination, title="Просмотр результатов",
+                               menu=admin_menu)
 
 
 @app.route('/admin/edit/9c', methods=["GET", "POST"])
@@ -741,7 +736,7 @@ def upload_file_MU():
                     return redirect(url_for('index'))
         else:
             return render_template('index.html', menu=user_menu, title='Главная', footer=True)
-    return render_template('upload.html', menu=admin_menu, footer=True,header_part='МУ')
+    return render_template('upload.html', menu=admin_menu, footer=True, header_part='МУ')
 
 
 @app.route('/admin/upload_archive', methods=['GET', 'POST'])
@@ -769,4 +764,4 @@ def upload_file_archive():
                     return redirect(url_for('list_tasks'))
         else:
             return render_template('index.html', menu=user_menu, title='Главная', footer=True)
-    return render_template('upload.html', menu=admin_menu, footer=True,header_part='Архив')
+    return render_template('upload.html', menu=admin_menu, footer=True, header_part='Архив')

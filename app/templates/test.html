@@ -25,21 +25,19 @@
                         <div class="col-md-12">
                             <p class="fs-5">{{ task.Question }}</p>
                             {% if task.picture %}
-                                <img src="../static/images/{{ task.picture }}" class="rounded w-100 mb-2"/>
+                                <img src="../static/images/{{ task.picture }}" class="w-100 rounded mb-2"/>
                             {% endif %}
 
-                            <div class="col-md-8">
+                            <div class="col-md-12">
+                                <p class="fs-5">Поля для ответа на задание №{{ loop.index }}</p>
                                 <input type="text" name="answer{{ loop.index }}" autocomplete="off"
                                        class="form-control">
                             </div>
                         </div>
                     {% endfor %}
                 </div>
-
-                <div class="col-md-6">
-                    <input type="submit" class="btn btn-primary mt-4"
-                           name="button" id="button" value="Отправить">
-                </div>
+                <input type="submit" class="btn btn-primary mt-4 col-md-12"
+                       name="button" id="button" value="Отправить">
             </div>
         </form>
         <!-- ========== End Quiz Form ========== -->
@@ -47,20 +45,25 @@
 
     {% block scripts %}
         <script type="text/javascript">
-            setTimeout(function () {
-                var formData = new FormData(document.forms['test_form']);
-                var xhr = new XMLHttpRequest();
-                xhr.open('POST', '', true);
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        window.location.href = "/";
-                    }
-                };
-                xhr.send(formData);
-            }, 5460000);
+            var formSubmitted = false;
 
+            setTimeout(function () {
+                if (!formSubmitted) {
+                    var formData = new FormData(document.forms['test_form']);
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', '', true);
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            window.location.href = "/";
+                        }
+                    };
+                    xhr.send(formData);
+                    formSubmitted = true; // Установка флага в true после отправки данных
+                }
+            }, 10000);
         </script>
 
+        <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
         <script src="{{ url_for('static', filename='scripts/countdown.function.js') }}"></script>
     {% endblock %}
 
