@@ -370,7 +370,7 @@ def test_9c():
                     grade = 0
 
                     for i, task in enumerate(tasks, start=1):
-                        form_answer = request.form[f"answer{i}"].replace('.', ',', 1).strip()
+                        form_answer = request.form[f"answer{i}"].replace('.', ',', 5).strip().lower()
                         tr_ra_res = User_answers(user_id=current_user.id, task_id=i, answer=form_answer)
                         correct_answer = task.Answer
                         if form_answer == correct_answer:
@@ -415,7 +415,7 @@ def test_10c():
                     grade = 0
 
                     for i, task in enumerate(tasks, start=1):
-                        form_answer = request.form[f"answer{i}"].replace('.', ',', 1).strip()
+                        form_answer = request.form[f"answer{i}"].replace('.', ',', 5).strip().lower()
                         tr_ra_res = User_answers(user_id=current_user.id, task_id=i + 7, answer=form_answer)
                         correct_answer = task.Answer
                         if form_answer == correct_answer:
@@ -460,7 +460,7 @@ def test_11c():
                     grade = 0
 
                     for i, task in enumerate(tasks, start=1):
-                        form_answer = request.form[f"answer{i}"].replace('.', ',', 5).strip()
+                        form_answer = request.form[f"answer{i}"].replace('.', ',', 5).strip().lower()
                         tr_ra_res = User_answers(user_id=current_user.id, task_id=i + 14, answer=form_answer)
                         correct_answer = task.Answer
                         if form_answer == correct_answer:
